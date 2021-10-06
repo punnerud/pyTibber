@@ -239,7 +239,6 @@ class TibberHome:
         self._current_price_total = None
         self._current_price_info = {}
         self._price_info = {}
-        self._level_info = {}
         self.info = {}
         self._subscription_id = None
         self._data = None
@@ -326,17 +325,14 @@ class TibberHome:
                     tax
                     total
                     startsAt
-                    level
                   }
                   today {
                     total
                     startsAt
-                    level
                   }
                   tomorrow {
                     total
                     startsAt
-                    level
                   }
                 }
               }
@@ -453,17 +449,14 @@ class TibberHome:
                     tax
                     total
                     startsAt
-                    level
                   }
                   today {
                     total
                     startsAt
-                    level
                   }
                   tomorrow {
                     total
                     startsAt
-                    level
                   }
                 }
               }
@@ -481,7 +474,6 @@ class TibberHome:
             _LOGGER.error("Could not find price info.")
             return
         self._price_info = {}
-        self._level_info = {}
         for key in ["current", "today", "tomorrow"]:
             try:
                 home = price_info["viewer"]["home"]
@@ -495,7 +487,6 @@ class TibberHome:
                 continue
             for data in price_info_k:
                 self._price_info[data.get("startsAt")] = data.get("total")
-                self._level_info[data.get("startsAt")] = data.get("level")
 
     @property
     def current_price_total(self):
@@ -517,7 +508,7 @@ class TibberHome:
     @property
     def price_level(self):
         """Get dictionary with price level, key is date-time."""
-        return self._level_info
+        return {}
 
     @property
     def home_id(self):
@@ -688,7 +679,7 @@ class TibberHome:
             if not self.last_data_timestamp or price_time > self.last_data_timestamp:
                 self.last_data_timestamp = price_time
             if 0 <= time_diff < 60:
-                res = round(price_total, 3), self.price_level[key], price_time
+                res = round(price_total, 3), None, price_time
         return res
 
     def current_attributes(self):

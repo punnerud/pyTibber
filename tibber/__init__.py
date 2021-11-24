@@ -596,6 +596,7 @@ class TibberHome:
             """
             subscription{
               liveMeasurement(homeId:"%s"){
+                timestamp
                 accumulatedConsumption
                 accumulatedCost
                 accumulatedProduction
